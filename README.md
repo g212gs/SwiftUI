@@ -15,8 +15,9 @@ SwiftUI demo with demo data
 
 - [x] Swift UI - regular controlls like List, HStack, VStack, ZStack, Navigation, button click, Shadow, Overlays
 - [x] Dark mode handling
+- [x] SF Symbol support
 - [x] State handling
-- [x] Data handling by model
+- [x] Data handling by model, auto increment ID feature
 - [x] Spacer, Divider
 
 
