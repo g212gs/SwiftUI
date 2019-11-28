@@ -10,7 +10,9 @@ import SwiftUI
 
 struct WebSeries: Identifiable {
     
-    var id = UUID()
+    private static var idSequence = sequence(first: 1, next: {$0 + 1})
+    
+    var id: Int
     var name: String
     
     var year: String
@@ -35,6 +37,32 @@ struct WebSeries: Identifiable {
     
     mutating func updateReaction(withValue isReact: Bool) {
         self.isReacted = isReact
+    }
+    
+    init(name: String, year: String, genere: String, numberOfSeason: Int, ratingIMDB: String, ratingRottenTomatoes: String, ratingTVCom: String, imgPosterImg: String, numberOfLikes: Int, isReacted: Bool, bio: String, firstEpisodDate: String, finalEpisodDate: String, numberOfEpisodes: Int, nominations: String, network: String) {
+        
+        self.id = WebSeries.idSequence.next() ?? 0
+        self.name = name
+        
+        self.year = year
+        self.genere = genere
+        self.numberOfSeason = numberOfSeason
+        
+        self.ratingIMDB = ratingIMDB
+        self.ratingRottenTomatoes = ratingRottenTomatoes
+        self.ratingTVCom = ratingTVCom
+        
+        self.imgPosterImg = imgPosterImg
+        
+        self.numberOfLikes = numberOfLikes
+        self.isReacted = isReacted
+        
+        self.bio = bio
+        self.firstEpisodDate = firstEpisodDate
+        self.finalEpisodDate = finalEpisodDate
+        self.numberOfEpisodes = numberOfEpisodes
+        self.nominations = nominations
+        self.network = network
     }
     
 }

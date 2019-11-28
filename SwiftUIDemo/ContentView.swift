@@ -7,9 +7,56 @@
 //
 
 import SwiftUI
-
-import SwiftUI
 import UIKit
+
+public enum ImageShape: String {
+        case circle = ".circle"
+        case circleFill = ".circle.fill"
+        case square = ".square"
+        case squareFill = ".square.fill"
+        case like = "hand.thumbsup"
+        case likeFill = "hand.thumbsup.fill"
+        case dislike = "hand.thumbsdown"
+        case dislikeFill = "hand.thumbsdown.fill"
+        
+        var reactImage: UIImage {
+            let boldLargeConfig = UIImage.SymbolConfiguration(pointSize: UIFont.systemFontSize, weight: .bold, scale: .large)
+            return UIImage(systemName: self.rawValue, withConfiguration: boldLargeConfig)!
+        }
+        
+        func getImage(withNumber number: Int, isAlphabate: Bool = false) -> UIImage {
+            
+            var imgName: String = ""
+            if isAlphabate {
+                imgName = String( Character(UnicodeScalar(Int(UnicodeScalar("a").value) + (number - 1) ) ?? "a"))
+            } else {
+                imgName = "\(number)"
+            }
+            imgName += self.rawValue
+            
+            let symblConfigTxtStyle = UIImage.SymbolConfiguration(textStyle: .title2)
+            
+//            let boldLargeConfig = UIImage.SymbolConfiguration(pointSize: UIFont.systemFontSize, weight: .bold, scale: .large)
+//            let smallConfig = UIImage.SymbolConfiguration(scale: .small)
+//            let boldSmallConfig = boldLargeConfig.applying(smallConfig)
+            
+            let finalImage = UIImage(systemName: imgName, withConfiguration: symblConfigTxtStyle) ?? UIImage(systemName: "questionmark", withConfiguration: symblConfigTxtStyle)!
+            return finalImage
+        }
+        
+        func getImageName(withNumber number: Int, isAlphabate: Bool = false) -> String {
+            
+            var imgName: String = ""
+            if isAlphabate {
+                imgName = String( Character(UnicodeScalar(Int(UnicodeScalar("a").value) + (number - 1) ) ?? "a"))
+            } else {
+                imgName = "\(number)"
+            }
+            imgName += self.rawValue
+            return imgName
+        }
+        
+    }
 
 struct ContentView: View {
     
@@ -54,30 +101,36 @@ struct ContentView: View {
         //        }.background(Color.white.edgesIgnoringSafeArea(.all))
         //            .shadow(radius: 10)
         
-        NavigationView {
-            
-            ListView(arrWebseries: arrWebseries)
+        HStack {
+            NavigationView {
                 
-                //            List(arrWebseries) { webSeries in
-                //                DetailView(webseries: webSeries)
-                //            }
+                ListView(arrWebseries: arrWebseries)
+//                let paperPlane = UIImage(systemName: "paperplane.fill")
+//                    return UIImage(named: "JackRyan")!
+//                        Image(uiImage: UIImage(systemName: "paperplane.fill")!)
+//                    Image(uiImage: paperPlane)
+                    
+                    //            List(arrWebseries) { webSeries in
+                    //                DetailView(webseries: webSeries)
+                    //            }
+                    
+                    // Add Navigation bar title and bar button items
+                    .navigationBarTitle("Web Series", displayMode: .inline).foregroundColor(.black)
                 
-                // Add Navigation bar title and bar button items
-                .navigationBarTitle("Web Series", displayMode: .inline).foregroundColor(.black)
-            
-            //            .navigationBarItems(leading:
-            //                Button(action: {
-            //                    print("Tapped Left")
-            //                }, label: {
-            //                    Text("Left").font(.body)
-            //                })
-            //                , trailing:
-            //                Button(action: {
-            //                    print("Tapped Right")
-            //                }, label: {
-            //                    Text("Right").font(.body)
-            //                })
-            //            )
+                //            .navigationBarItems(leading:
+                //                Button(action: {
+                //                    print("Tapped Left")
+                //                }, label: {
+                //                    Text("Left").font(.body)
+                //                })
+                //                , trailing:
+                //                Button(action: {
+                //                    print("Tapped Right")
+                //                }, label: {
+                //                    Text("Right").font(.body)
+                //                })
+                //            )
+            }
         }
         
     }
@@ -85,7 +138,14 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(arrWebseries: arrWebSeriesDummy)
+        
+        Group {
+           ContentView(arrWebseries: arrWebSeriesDummy)
+              .environment(\.colorScheme, .light)
+
+           ContentView(arrWebseries: arrWebSeriesDummy)
+              .environment(\.colorScheme, .dark)
+        }
     }
 }
 
@@ -121,7 +181,13 @@ struct ListCellView: View {
     var webseries: WebSeries
     
     var body: some View {
+    
         HStack(alignment: .center, spacing: 10) {
+            
+            Image(uiImage: ImageShape.square.getImage(withNumber: webseries.id, isAlphabate: true).withRenderingMode(.alwaysTemplate))
+                .foregroundColor(Color.init(UIColor.label))
+            
+            
             Image(webseries.imgPosterImg)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -142,6 +208,7 @@ struct ListCellView: View {
         }
         
     }
+    
 }
 
 struct DetailView: View {
@@ -289,7 +356,7 @@ struct LikeView: View {
     
     var body: some View {
         
-        VStack(alignment: .leading, spacing: 0.0) {
+        VStack(alignment: HorizontalAlignment.leading, spacing: 0.0) {
             
             HStack(alignment: .center, spacing: 0) {
                 VStack(alignment: .leading, spacing: 10) {
@@ -306,26 +373,27 @@ struct LikeView: View {
                 HStack(alignment: .center, spacing: 15) {
                     Button(action: {
                         print("Like Button clicked")
-                        self.isLiked = true
+                        self.isLiked.toggle()
                     }) {
-                        Image("like").renderingMode(.template)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: nil, alignment: .center)
-                            .foregroundColor(isLiked ? Color.blue : Color.gray)
+                        Image(uiImage: ImageShape.likeFill.reactImage)
+                            .foregroundColor(isLiked ? .blue : .gray)
+                        
+//                        Image("like").renderingMode(.template)
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: 20, height: nil, alignment: .center)
+//                            .foregroundColor(isLiked ? Color.blue : Color.gray)
                     }
                     
                     Button(action: {
                         print("Dislike Button clicked")
-                        self.isLiked = false
+//                        self.isLiked.toggle()
                     }) {
-                        Image("dislike").renderingMode(.template)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: nil, alignment: .center)
-                            .foregroundColor(isLiked ? Color.gray : Color.blue)
+                        Image(uiImage: ImageShape.dislikeFill.reactImage)
+                        .foregroundColor(isLiked ? .gray : .blue)
                     }
                     .padding(.trailing, 10)
+                    .frame(width: 40.0, height: nil, alignment: .center)
                 }
             }
             Divider()

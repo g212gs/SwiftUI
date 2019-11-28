@@ -5,10 +5,10 @@ SwiftUI demo with demo data
 [![License][license-image]][license-url]
 
 <p align="center">
-  <img src="https://i.imgur.com/YMgWpgi.png" alt="Light list screen" width="150" />
-  <img src="https://i.imgur.com/VSGhaea.png" alt="Light detail screen" width="150" />
-  <img src="https://i.imgur.com/Ozlf1hY.png" alt="Dark list screen" width="150" />
-  <img src="https://i.imgur.com/YUHxz4t.png" alt="Dark detail screen" width="150" />
+  <img src="https://i.imgur.com/8yoapfv.png" alt="Light list screen" width="150" />
+  <img src="https://i.imgur.com/oIbVonX.png" alt="Light detail screen" width="150" />
+  <img src="https://i.imgur.com/gUKOINa.png" alt="Dark list screen" width="150" />
+  <img src="https://i.imgur.com/JAFst9G.png" alt="Dark detail screen" width="150" />
 </p>
 
 # Features
